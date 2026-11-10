@@ -36,6 +36,30 @@ Vector is a legacy resizable-array implementation of the Java List interface tha
 ## Set
 A Java Set is an interface in the Java Collection Framework that represents a collection of unique elements, meaning it does not allow duplicate values. Unlike a List, a Set does not provide access to elements through indexes. Java provides several implementations of the Set interface, including HashSet, LinkedHashSet, and TreeSet. HashSet offers fast operations without guaranteeing element order, LinkedHashSet maintains insertion order, and TreeSet stores elements in sorted order. Sets are commonly used when uniqueness is important, such as removing duplicates or efficiently checking whether an element already exists in a collection.
 
+#### ConcurrentHashMap.KeySetView
+ConcurrentHashMap.KeySetView is a thread-safe Set implementation provided by ConcurrentHashMap that represents the keys stored in a concurrent hash map. It allows elements to be accessed and iterated over safely by multiple threads without requiring external synchronization. Depending on how it is created, elements can be added to the set, automatically creating corresponding key-value entries in the underlying map using a predefined mapped value. It is useful when multiple threads need to work with a shared collection of unique keys.
+
+#### ConcurrentSkipListSet
+ConcurrentSkipListSet is a thread-safe implementation of the Java NavigableSet interface that stores unique elements in sorted order. It uses a concurrent skip-list data structure to provide efficient searching, insertion, and removal while allowing multiple threads to access and modify the set simultaneously. It also supports navigation operations such as retrieving the first, last, lower, higher, and nearest elements. It is commonly used when a sorted collection must be accessed concurrently.
+
+#### CopyOnWriteArraySet
+CopyOnWriteArraySet is a thread-safe implementation of the Java Set interface that internally uses a CopyOnWriteArrayList to store unique elements. Whenever an element is added or removed, a new copy of the underlying array is created, allowing read operations and iteration to happen safely without external synchronization. However, modifications are relatively expensive because they require copying the array. It is best suited for applications where reading and iterating happen frequently while modifications are rare.
+
+#### EnumSet
+EnumSet is a specialized implementation of the Java Set interface designed exclusively for storing enum constants. It uses a highly efficient bit-vector representation, making operations such as adding, removing, and checking elements very fast while consuming little memory. It maintains the natural declaration order of enum constants and does not allow null values. It is commonly used when working with a predefined group of enum values, such as days of the week, application states, or permissions.
+
+#### HashSet
+HashSet is a commonly used implementation of the Java Set interface that stores unique elements using a hash table. It does not guarantee the order of elements and allows one null value. It provides average constant-time performance for basic operations such as adding, removing, and checking whether an element exists, assuming a good distribution of hash codes. It is commonly used when duplicate elements must be avoided and fast lookup is important.
+
+#### JobStateReasons
+JobStateReasons is a specialized implementation of the Java Set interface from the javax.print.attribute.standard package. It stores unique JobStateReason values that describe why a print job is in a particular state, such as being held, blocked, or stopped. It extends HashSet and maintains a collection of reasons associated with a printer job. It is primarily used in Java printing applications to provide additional information about the status of print jobs.
+
+#### LinkedHashSet
+LinkedHashSet is an implementation of the Java Set interface that combines the uniqueness of a HashSet with predictable iteration order. It uses a hash table and a linked list to maintain elements in insertion order while preventing duplicates. It allows one null value and provides average constant-time performance for basic operations such as adding, removing, and searching. It is useful when a collection needs to contain unique elements while preserving the order in which they were inserted.
+
+#### TreeSet
+TreeSet is an implementation of the Java NavigableSet interface that stores unique elements in sorted order using a tree-based data structure, typically a Red-Black Tree. It automatically sorts elements according to their natural ordering or a custom Comparator. It provides efficient operations for adding, removing, and searching elements, generally with logarithmic time complexity. It also supports navigation operations such as retrieving the smallest, largest, lower, and higher elements. It is commonly used when unique elements must always remain sorted.
+
 ## Queue
 A Java Queue is an interface in the Java Collection Framework that represents a collection of elements designed for processing in a specific order, typically following the First-In, First-Out (FIFO) principle, meaning the first element added is usually the first one removed. It provides operations such as offer() to add elements, poll() to retrieve and remove the head, and peek() to inspect the head without removing it. Java provides several implementations of the Queue interface, including LinkedList, PriorityQueue, and ArrayDeque. LinkedList and ArrayDeque generally follow FIFO ordering, while PriorityQueue processes elements according to their priority rather than insertion order. Queues are commonly used in task scheduling, message processing, and managing requests in applications.
 
