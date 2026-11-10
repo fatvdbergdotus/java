@@ -12,25 +12,25 @@ A Java List is an interface in the Java Collection Framework that represents an 
 #### ArrayList
 ArrayList is a resizable-array implementation of the Java List interface that stores elements in an internal array and automatically increases its capacity when more elements are added. It maintains insertion order, allows duplicate and null values, and provides fast access to elements using their index. Adding elements at the end is generally efficient, but inserting or removing elements in the middle can be slower because other elements need to be shifted. ArrayList is commonly used when frequent element retrieval is required.
 
-### AttributeList
+#### AttributeList
 AttributeList is a specialized implementation of the Java List interface from the javax.management package. It is primarily used in Java Management Extensions (JMX) to represent a list of attributes associated with a managed object (MBean). It extends ArrayList and provides additional methods for adding and retrieving attribute information. It can store Attribute objects and is commonly used when managing and monitoring Java applications through JMX.
 
 ### CopyOnWriteArrayList
 CopyOnWriteArrayList is a thread-safe implementation of the Java List interface from the java.util.concurrent package. Whenever an element is added, removed, or modified, it creates a new copy of its underlying array instead of modifying the existing array. This makes read operations efficient and allows multiple threads to iterate over the list without requiring external synchronization. However, write operations are relatively expensive because they involve copying the array. It is particularly useful in applications where read operations happen frequently and modifications are relatively rare.
 
-### LinkedList
+#### LinkedList
 LinkedList is an implementation of the Java List and Deque interfaces that stores elements as nodes, where each node contains a reference to the previous and next nodes. It maintains insertion order, allows duplicate and null values, and supports operations at both ends of the list. Adding or removing elements is efficient when the required position is already known, but accessing elements by index is slower than with ArrayList because it requires traversing the nodes. LinkedList is commonly used when frequent insertions and removals are needed, or when implementing a queue or deque.
 
-### RoleList
+#### RoleList
 RoleList is a specialized implementation of the Java List interface from the javax.management.relation package. It extends ArrayList and is designed to store Role objects used in Java Management Extensions (JMX). It provides additional methods for adding and retrieving role information while ensuring that the elements are valid Role objects. It is mainly used in JMX relation management, where roles describe relationships between managed objects (MBeans).
 
-### RoleUnresolvedList
+#### RoleUnresolvedList
 RoleUnresolvedList is a specialized implementation of the Java List interface from the javax.management.relation package. It extends ArrayList and is designed to store RoleUnresolved objects, which represent roles that could not be properly resolved during JMX relation operations. It provides additional methods for adding and retrieving unresolved role information and is useful for identifying problems when managing relationships between MBeans. It is primarily used in Java Management Extensions for handling incomplete or invalid role information.
 
-### Stack
+#### Stack
 Stack is a legacy implementation of the Java List interface that represents a Last-In, First-Out (LIFO) data structure, meaning the last element added is the first one removed. It extends Vector and provides additional methods such as push() to add an element, pop() to remove and return the top element, peek() to inspect the top element, and empty() to check whether the stack contains elements. It is synchronized, making its methods thread-safe individually, but modern Java applications often prefer ArrayDeque for stack operations because it generally offers better performance.
 
-### Vector
+#### Vector
 Vector is a legacy resizable-array implementation of the Java List interface that stores elements in an internal array and automatically increases its capacity when necessary. It maintains insertion order, allows duplicate and null values, and provides indexed access to elements. Unlike ArrayList, its methods are synchronized, making individual operations thread-safe. However, synchronization can introduce additional overhead, so ArrayList is generally preferred when thread safety is not required. Vector is mainly encountered in older Java applications and legacy code.
 
 ## Set
