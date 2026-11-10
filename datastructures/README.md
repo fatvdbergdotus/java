@@ -98,3 +98,30 @@ SynchronousQueue is a special thread-safe blocking queue that does not store any
 
 ## Map
 A Java Map is an interface in the Java Collection Framework that stores data as key-value pairs, where each key must be unique but multiple keys can have the same value. It allows efficient insertion, retrieval, updating, and removal of values using their associated keys. Unlike List and Set, Map does not extend the Collection interface. Java provides several implementations of the Map interface, including HashMap, LinkedHashMap, TreeMap, and Hashtable. HashMap provides fast lookups without guaranteeing order, LinkedHashMap maintains insertion order, and TreeMap stores entries sorted by their keys. Maps are commonly used when data needs to be associated with unique identifiers, such as storing user information by ID or maintaining configuration settings.
+
+#### ConcurrentHashMap
+ConcurrentHashMap is a thread-safe implementation of the Java Map interface that allows multiple threads to access and modify key-value pairs concurrently without requiring the entire map to be locked. It provides efficient read and write operations by using fine-grained synchronization and other concurrency mechanisms. It does not allow null keys or values and does not guarantee iteration order. It is commonly used in multithreaded applications where multiple threads need to share and update a map safely.
+
+#### ConcurrentSkipListMap
+ConcurrentSkipListMap is a thread-safe implementation of the Java NavigableMap interface that stores key-value pairs in sorted order using a concurrent skip-list data structure. Keys are ordered according to their natural ordering or a custom Comparator, and duplicate keys are not allowed. It supports efficient concurrent insertion, removal, searching, and navigation operations, such as retrieving the lowest, highest, lower, and higher keys. It does not allow null keys or values and is useful when multiple threads need access to a sorted map.
+
+#### EnumMap
+EnumMap is a specialized implementation of the Java Map interface designed specifically for using enum constants as keys. It stores entries in the natural order of the enum constants and uses an internal array-based representation, making it highly efficient in terms of performance and memory usage. All keys must belong to the same enum type, while values can be null. It is commonly used when mapping predefined enum values to associated information, such as mapping days of the week to schedules or application states to descriptions.
+
+#### HashMap
+HashMap is a commonly used implementation of the Java Map interface that stores data as key-value pairs using a hash table. It provides average constant-time performance for basic operations such as inserting, retrieving, and removing entries, assuming a good distribution of hash codes. It does not guarantee insertion order or sorted order, allows one null key and multiple null values, and is not thread-safe. It is commonly used when fast data retrieval through unique keys is required.
+
+#### Hashtable
+Hashtable is a legacy, synchronized implementation of the Java Map interface that stores key-value pairs using a hash table. Its methods are synchronized, allowing individual operations to be performed safely by multiple threads, although this can introduce performance overhead. Unlike HashMap, it does not allow null keys or values and does not guarantee any particular iteration order. It is mainly encountered in older Java applications, while modern applications generally prefer ConcurrentHashMap for concurrent access.
+
+#### IdentityHashMap
+IdentityHashMap is a specialized implementation of the Java Map interface that compares keys using reference equality (==) instead of logical equality (equals()). This means two different objects containing identical data are treated as separate keys unless they refer to the exact same object in memory. It uses an internal array-based hash table and allows one null key and multiple null values. It is mainly used in specialized situations such as object graph processing, serialization, and tracking object identity.
+
+#### LinkedHashMap
+LinkedHashMap is an implementation of the Java Map interface that combines a hash table with a doubly linked list to maintain a predictable iteration order. By default, it preserves the insertion order of entries, but it can also be configured to maintain access order, which is useful for implementing Least Recently Used (LRU) caches. It provides average constant-time performance for basic operations and allows one null key and multiple null values. It is commonly used when fast key-value lookups and predictable iteration order are both required.
+
+#### TreeMap
+TreeMap is an implementation of the Java NavigableMap interface that stores key-value pairs in sorted order using a tree-based data structure, typically a Red-Black Tree. Keys are sorted according to their natural ordering or a custom Comparator, and duplicate keys are not allowed. It provides logarithmic time complexity for basic operations such as insertion, retrieval, and removal. It supports navigation operations such as retrieving the first, last, lower, and higher keys. It is commonly used when key-value entries need to remain sorted automatically.
+
+#### WeakHashMap
+WeakHashMap is a specialized implementation of the Java Map interface that stores keys using weak references, allowing keys to be garbage-collected when there are no longer strong references to them elsewhere in the application. When a key is garbage-collected, its corresponding entry can automatically be removed from the map. It provides functionality similar to HashMap, allows one null key and multiple null values, and is not thread-safe. It is commonly used for memory-sensitive caches and situations where objects should not be kept alive solely because they are stored as map keys.
