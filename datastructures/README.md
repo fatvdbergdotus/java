@@ -15,7 +15,7 @@ ArrayList is a resizable-array implementation of the Java List interface that st
 #### AttributeList
 AttributeList is a specialized implementation of the Java List interface from the javax.management package. It is primarily used in Java Management Extensions (JMX) to represent a list of attributes associated with a managed object (MBean). It extends ArrayList and provides additional methods for adding and retrieving attribute information. It can store Attribute objects and is commonly used when managing and monitoring Java applications through JMX.
 
-### CopyOnWriteArrayList
+#### CopyOnWriteArrayList
 CopyOnWriteArrayList is a thread-safe implementation of the Java List interface from the java.util.concurrent package. Whenever an element is added, removed, or modified, it creates a new copy of its underlying array instead of modifying the existing array. This makes read operations efficient and allows multiple threads to iterate over the list without requiring external synchronization. However, write operations are relatively expensive because they involve copying the array. It is particularly useful in applications where read operations happen frequently and modifications are relatively rare.
 
 #### LinkedList
