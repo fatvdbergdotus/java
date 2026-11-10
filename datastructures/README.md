@@ -63,5 +63,38 @@ TreeSet is an implementation of the Java NavigableSet interface that stores uniq
 ## Queue
 A Java Queue is an interface in the Java Collection Framework that represents a collection of elements designed for processing in a specific order, typically following the First-In, First-Out (FIFO) principle, meaning the first element added is usually the first one removed. It provides operations such as offer() to add elements, poll() to retrieve and remove the head, and peek() to inspect the head without removing it. Java provides several implementations of the Queue interface, including LinkedList, PriorityQueue, and ArrayDeque. LinkedList and ArrayDeque generally follow FIFO ordering, while PriorityQueue processes elements according to their priority rather than insertion order. Queues are commonly used in task scheduling, message processing, and managing requests in applications.
 
+#### ArrayBlockingQueue
+ArrayBlockingQueue is a thread-safe, bounded blocking queue that stores elements in a fixed-size array and follows the First-In, First-Out (FIFO) principle. Its capacity must be specified when the queue is created and cannot be changed afterward. When the queue is full, adding elements blocks until space becomes available, and when it is empty, retrieving elements blocks until an element is added. It is commonly used for producer-consumer problems where controlling the number of stored elements is important.
+
+#### ArrayDeque
+ArrayDeque is a resizable-array implementation of the Java Deque interface that allows elements to be added and removed from both the beginning and the end of the collection. It can be used as both a queue (FIFO) and a stack (LIFO) and generally provides efficient operations at both ends. Unlike Stack and Vector, it is not synchronized and does not guarantee thread safety. It does not allow null elements and is commonly used when a fast, general-purpose queue or stack is needed.
+
+#### ConcurrentLinkedDeque
+ConcurrentLinkedDeque is a thread-safe, unbounded, double-ended queue that allows multiple threads to add and remove elements from both ends without requiring external synchronization. It follows a non-blocking algorithm, meaning threads do not need to wait for locks to access the collection. It supports both FIFO and LIFO operations and does not allow null elements. It is useful in concurrent applications where multiple threads need to efficiently share a deque.
+
+#### ConcurrentLinkedQueue
+ConcurrentLinkedQueue is a thread-safe, unbounded queue that follows the First-In, First-Out (FIFO) principle and allows multiple threads to add and remove elements simultaneously. It uses a non-blocking algorithm based on linked nodes, providing efficient concurrent operations without requiring traditional locks. Unlike blocking queues, it does not wait when empty or full, and it does not allow null elements. It is commonly used for asynchronous task processing and communication between multiple threads.
+
+#### DelayQueue
+DelayQueue is an unbounded, thread-safe blocking queue in which elements can only be retrieved after their specified delay has expired. Its elements must implement the Delayed interface, which defines how the remaining delay is calculated and how elements are compared. Elements with the shortest remaining delay become available first, rather than necessarily following insertion order. It is commonly used for scheduling tasks, managing timeouts, and implementing expiration-based operations.
+
+#### LinkedBlockingDeque
+LinkedBlockingDeque is a thread-safe, optionally bounded, double-ended blocking queue implemented using linked nodes. It allows elements to be inserted and removed from both the beginning and the end of the queue, supporting both FIFO and LIFO operations. When a capacity is specified and the deque is full, insertion operations wait until space becomes available; when it is empty, retrieval operations wait for an element. It is useful in concurrent applications that require flexible producer-consumer communication.
+
+#### LinkedBlockingQueue
+LinkedBlockingQueue is a thread-safe, optionally bounded blocking queue implemented using linked nodes and typically follows the First-In, First-Out (FIFO) principle. It allows multiple threads to add and retrieve elements safely. When a specified capacity is reached, insertion operations block until space becomes available, while retrieval operations block when the queue is empty. If no capacity is specified, its capacity defaults to Integer.MAX_VALUE. It is commonly used in producer-consumer applications and thread pools.
+
+#### LinkedTransferQueue
+LinkedTransferQueue is a thread-safe, unbounded queue that supports asynchronous and synchronous element transfers between producer and consumer threads. It extends the functionality of a standard blocking queue by providing the transfer() method, which allows a producer to wait until another thread receives the element. It also supports non-blocking operations such as offer() and blocking operations such as take(). It is useful in high-concurrency applications where efficient communication and direct data transfer between threads are required.
+
+#### PriorityBlockingQueue
+PriorityBlockingQueue is a thread-safe, unbounded blocking queue that processes elements according to their natural ordering or a custom Comparator, rather than following FIFO insertion order. Elements with the highest priority according to the ordering are retrieved first. When the queue is empty, retrieval operations block until an element becomes available, but insertion operations do not block because the queue has no fixed capacity. It is commonly used for task scheduling and concurrent processing where certain tasks must be handled before others.
+
+#### PriorityQueue
+PriorityQueue is a queue implementation that stores elements according to their natural ordering or a custom Comparator, rather than insertion order. It is typically implemented using a binary heap, allowing efficient retrieval and removal of the element with the highest priority according to its ordering. It does not allow null elements, permits duplicate elements, and is not thread-safe. It is commonly used in algorithms such as Dijkstra's shortest path, task scheduling, and situations where elements must be processed according to priority.
+
+#### SynchronousQueue
+SynchronousQueue is a special thread-safe blocking queue that does not store any elements because every insertion operation must be directly matched with a corresponding removal operation by another thread. A producer attempting to insert an element waits until a consumer retrieves it, and a consumer attempting to retrieve an element waits until a producer provides one. It can operate in either fair or non-fair ordering mode. It is commonly used for direct handoffs between threads, particularly in thread pools and concurrent producer-consumer applications.
+
 ## Map
 A Java Map is an interface in the Java Collection Framework that stores data as key-value pairs, where each key must be unique but multiple keys can have the same value. It allows efficient insertion, retrieval, updating, and removal of values using their associated keys. Unlike List and Set, Map does not extend the Collection interface. Java provides several implementations of the Map interface, including HashMap, LinkedHashMap, TreeMap, and Hashtable. HashMap provides fast lookups without guaranteeing order, LinkedHashMap maintains insertion order, and TreeMap stores entries sorted by their keys. Maps are commonly used when data needs to be associated with unique identifiers, such as storing user information by ID or maintaining configuration settings.
