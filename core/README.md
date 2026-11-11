@@ -46,3 +46,10 @@ Java supports several mechanisms for encapsulation and information hiding, which
 
 ## Immutable objects
 Additional mechanisms include immutable objects, where fields cannot be changed after construction (often using final fields and no setters), and validation within setter methods to prevent invalid values. Java also supports encapsulation through packages and modules, which control access between classes and define which packages are exposed to other modules.
+
+## Operators
+| Operator | Name | Meaning |
+|---|---|---|
+| `&` | Bitwise AND | Bit is `1` if both bits are `1` |
+| `^` | Bitwise XOR | Bit is `1` if the bits are different |
+| `\|` | Bitwise OR | Bit is `1` if at least one bit is `1` |
