@@ -16,6 +16,10 @@
 | `transient` | Excluded from default serialization |
 | `volatile` | Guarantees visibility and ordering of reads/writes across threads |
 
+Transient fields in Java are instance variables declared with the transient keyword. They are excluded from the default Java serialization process.
+
+When an object is serialized, transient fields are not saved to the serialized representation. When the object is deserialized, they receive their default values.
+
 ## Overriding versus Overloading
 Method overriding occurs when a subclass provides its own implementation of a method inherited from a superclass. The method must have the same name and parameter list, and its return type must be the same or covariant. Overriding requires inheritance and enables runtime polymorphism, meaning that the method implementation is determined by the actual object type rather than the reference type. The @Override annotation can be used to indicate that a method overrides an inherited method.
 
