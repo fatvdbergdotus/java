@@ -1,5 +1,10 @@
 # Core Java
 
+## Method hiding
+Method hiding in Java occurs when a subclass declares a static method with the same signature as a static method in its superclass.
+
+Unlike method overriding, method hiding uses compile-time reference types to determine which method is called, rather than the actual object type.
+
 ## Field declarations
 
 | Modifier | Same class | Same package | Subclass (different package) | Other packages |
