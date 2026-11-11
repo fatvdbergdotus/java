@@ -25,3 +25,6 @@ Method overloading occurs when multiple methods have the same name but different
 Encapsulation is an object-oriented programming principle that combines data (fields) and methods into a single class while restricting direct access to the internal state of an object. This is typically achieved by declaring fields as private and providing public getter and setter methods to access or modify them. This protects data from unauthorized or invalid modifications and allows the class to control how its internal state is accessed.
 
 Encapsulation improves data hiding, maintainability, and modularity by separating a class's internal implementation from its public interface. It allows implementation details to change without affecting other classes that use the object. For example, a Person class can declare its age field as private and provide a setter that ensures the age cannot be negative.
+
+## Immutable objects
+Additional mechanisms include immutable objects, where fields cannot be changed after construction (often using final fields and no setters), and validation within setter methods to prevent invalid values. Java also supports encapsulation through packages and modules, which control access between classes and define which packages are exposed to other modules.
