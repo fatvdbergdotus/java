@@ -9,6 +9,17 @@ Java Iterable is an interface in the Java programming language that represents a
 ## List
 A Java List is an interface in the Java Collection Framework that represents an **ordered collection of elements**, allowing duplicate values and providing access to elements through their index (starting at 0). It supports operations such as adding, removing, updating, searching, and retrieving elements. Java provides several implementations of the List interface, including ArrayList, LinkedList, and Vector, each with different performance characteristics. ArrayList is suitable for fast random access, while LinkedList is useful for frequent insertions and deletions. Lists are commonly used when the **order of elements matters** and duplicate values need to be maintained.
 
+| Implementation | Null elements | Duplicates | Ordering | Thread-safe | Capacity |
+|---|---|---|---|---|---|
+| ArrayList | Yes | Yes | Insertion | No | Dynamic |
+| AttributeList | Yes | Yes | Insertion | No | Dynamic |
+| CopyOnWriteArrayList | Yes | Yes | Insertion | Yes | Dynamic |
+| LinkedList | Yes | Yes | Insertion | No | Dynamic |
+| RoleList | Yes | Yes | Insertion | No | Dynamic |
+| RoleUnresolvedList | Yes | Yes | Insertion | No | Dynamic |
+| Stack | Yes | Yes | LIFO | Yes | Dynamic |
+| Vector | Yes | Yes | Insertion | Yes | Dynamic |
+
 #### ArrayList
 ArrayList is a resizable-array implementation of the Java List interface that stores elements in an **internal array** and** automatically increases** its capacity when more elements are added. It maintains insertion order, allows duplicate and null values, and provides fast access to elements using their index. Adding elements at the end is generally efficient, but inserting or removing elements in the middle can be slower because other elements need to be shifted. ArrayList is commonly used when **frequent element retrieval** is required.
 
