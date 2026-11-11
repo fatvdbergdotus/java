@@ -26,5 +26,15 @@ Encapsulation is an object-oriented programming principle that combines data (fi
 
 Encapsulation improves data hiding, maintainability, and modularity by separating a class's internal implementation from its public interface. It allows implementation details to change without affecting other classes that use the object. For example, a Person class can declare its age field as private and provide a setter that ensures the age cannot be negative.
 
+Java supports several mechanisms for encapsulation and information hiding, which control access to an object's internal state and implementation details:
+1. Data hiding: Declare fields as private to prevent direct access from other classes.
+2. Access modifiers: Use private, package-private, protected, and public to control visibility of fields, methods, and constructors.
+3. Getters and setters: Provide controlled access to private fields, allowing validation and restricting modifications.
+4. Implementation hiding: Expose only the public interface of a class while hiding internal implementation details.
+5. Abstraction: Use interfaces and abstract classes to define functionality without exposing implementation details.
+6. Immutability: Use final fields and avoid setters to prevent an object's state from changing after construction.
+7. Constructor validation: Validate input during object creation to ensure that objects start in a valid state.
+8. Package encapsulation: Use packages and Java modules to restrict access to implementation classes and expose only intended APIs.
+
 ## Immutable objects
 Additional mechanisms include immutable objects, where fields cannot be changed after construction (often using final fields and no setters), and validation within setter methods to prevent invalid values. Java also supports encapsulation through packages and modules, which control access between classes and define which packages are exposed to other modules.
