@@ -34,6 +34,8 @@ Method overriding occurs when a subclass provides its own implementation of a me
 
 Method overloading occurs when multiple methods have the same name but different parameter lists. The methods can differ in the number, types, or order of their parameters. Overloading does not require inheritance and enables compile-time polymorphism, meaning that the compiler determines which method to call based on the arguments provided. Changing only the return type or parameter names is insufficient to overload a method.
 
+Polymorphism can be achieved through method overriding (runtime polymorphism) and method overloading (compile-time polymorphism). Java does not support operator overloading.
+
 ## Encapsulation
 Encapsulation is an object-oriented programming principle that combines data (fields) and methods into a single class while restricting direct access to the internal state of an object. This is typically achieved by declaring fields as private and providing public getter and setter methods to access or modify them. This protects data from unauthorized or invalid modifications and allows the class to control how its internal state is accessed.
 
