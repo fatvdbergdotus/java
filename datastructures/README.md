@@ -1,5 +1,18 @@
 # Data structures
 
+| Implementation | Null elements | Null keys | Null values |
+|---|---|---|---|
+| `HashSet` | Yes (one) | N/A | N/A |
+| `LinkedHashSet` | Yes (one) | N/A | N/A |
+| `TreeSet` | No* | N/A | N/A |
+| `EnumSet` | No | N/A | N/A |
+| `HashMap` | N/A | Yes (one) | Yes |
+| `LinkedHashMap` | N/A | Yes (one) | Yes |
+| `TreeMap` | N/A | No* | Yes |
+| `ConcurrentHashMap` | N/A | No | No |
+| `ConcurrentSkipListMap` | N/A | No | No |
+| `Hashtable` | N/A | No | No |
+
 ## Collection
 The Java Collection Framework is a set of classes and interfaces in Java that provides a standard way to **store, manage, and manipulate groups of objects**. It includes interfaces such as List, Set, Queue, and Map, each designed for different purposes: a List stores ordered elements and allows duplicates, a Set stores unique elements, a Queue manages elements in a specific processing order, and a Map stores data as key-value pairs. The framework also provides implementations such as ArrayList, LinkedList, HashSet, TreeSet, and HashMap, along with utility methods for sorting, searching, and iterating over elements, making data management more efficient and reusable in Java applications.
 
