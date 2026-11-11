@@ -47,6 +47,16 @@ Vector is a **legacy resizable-array implementation** of the Java List interface
 ## Set
 A Java Set is an interface in the Java Collection Framework that represents a collection of unique elements, meaning it does **not allow duplicate values**. Unlike a List, a Set does not provide access to elements through indexes. Java provides several implementations of the Set interface, including HashSet, LinkedHashSet, and TreeSet. HashSet offers fast operations without guaranteeing element order, LinkedHashSet maintains insertion order, and TreeSet stores elements in sorted order. Sets are commonly used when uniqueness is important, such as removing duplicates or efficiently checking whether an element already exists in a collection.
 
+| Implementation | Null elements | Duplicates | Ordering | Thread-safe | Capacity |
+|---|---|---|---|---|---|
+| ConcurrentHashMap.KeySetView | No | No | Unspecified | Yes | Dynamic |
+| ConcurrentSkipListSet | No | No | Sorted | Yes | Dynamic |
+| CopyOnWriteArraySet | Yes | No | Insertion* | Yes | Dynamic |
+| EnumSet | No | No | Enum declaration | No | Dynamic |
+| HashSet | One | No | Unspecified | No | Dynamic |
+| LinkedHashSet | One | No | Insertion | No | Dynamic |
+| TreeSet | No* | No | Sorted | No | Dynamic |
+
 #### ConcurrentHashMap.KeySetView
 ConcurrentHashMap.KeySetView is a **thread-safe Set implementation provided by ConcurrentHashMap** that represents the keys stored in a **concurrent hash map**. It allows elements to be accessed and iterated over safely by multiple threads without requiring external synchronization. Depending on how it is created, elements can be added to the set, automatically creating corresponding key-value entries in the underlying map using a predefined mapped value. It is useful when multiple threads need to work with a shared collection of unique keys.
 
@@ -70,6 +80,21 @@ TreeSet is an implementation of the Java NavigableSet interface that stores uniq
 
 ## Queue
 A Java Queue is an interface in the Java Collection Framework that represents a collection of elements designed for **processing in a specific order**, typically following the **First-In, First-Out** (FIFO) principle, meaning the first element added is usually the first one removed. It provides operations such as offer() to add elements, poll() to retrieve and remove the head, and peek() to inspect the head without removing it. Java provides several implementations of the Queue interface, including LinkedList, PriorityQueue, and ArrayDeque. LinkedList and ArrayDeque generally follow FIFO ordering, while PriorityQueue processes elements according to their priority rather than insertion order. Queues are commonly used in task scheduling, message processing, and managing requests in applications.
+
+| Implementation | Null elements | Duplicates | Ordering | Thread-safe | Capacity |
+|---|---|---|---|---|---|
+| ArrayBlockingQueue | No | Yes | FIFO | Yes | Fixed |
+| ArrayDeque | No | Yes | FIFO / LIFO | No | Dynamic |
+| ConcurrentLinkedDeque | No | Yes | FIFO / LIFO | Yes | Unbounded |
+| ConcurrentLinkedQueue | No | Yes | FIFO | Yes | Unbounded |
+| DelayQueue | No | Yes | Delay priority | Yes | Unbounded |
+| LinkedBlockingDeque | No | Yes | FIFO / LIFO | Yes | Optional bound |
+| LinkedBlockingQueue | No | Yes | FIFO | Yes | Optional bound |
+| LinkedList | Yes | Yes | FIFO / LIFO | No | Dynamic |
+| LinkedTransferQueue | No | Yes | FIFO | Yes | Unbounded |
+| PriorityBlockingQueue | No | Yes | Priority | Yes | Unbounded |
+| PriorityQueue | No | Yes | Priority | No | Dynamic |
+| SynchronousQueue | No | N/A | Direct handoff | Yes | Zero storage |
 
 #### ArrayBlockingQueue
 ArrayBlockingQueue is a **thread-safe**, bounded blocking queue that stores elements in a **fixed-size array** and follows the **First-In, First-Out** (FIFO) principle. Its **capacity must be specified when the queue is created** and cannot be changed afterward. When the queue is full, adding elements blocks until space becomes available, and when it is empty, retrieving elements blocks until an element is added. It is commonly used for **producer-consumer** problems where controlling the number of stored elements is important.
@@ -106,6 +131,18 @@ SynchronousQueue is a **special thread-safe blocking queue that does not store a
 
 ## Map
 A Java Map is an interface in the Java Collection Framework that stores data as **key-value pairs**, where each **key must be unique but multiple keys can have the same value**. It allows efficient insertion, retrieval, updating, and removal of values using their associated keys. Unlike List and Set, **Map does not extend the Collection interface**. Java provides several implementations of the Map interface, including HashMap, LinkedHashMap, TreeMap, and Hashtable. HashMap provides fast lookups without guaranteeing order, LinkedHashMap maintains insertion order, and TreeMap stores entries sorted by their keys. Maps are commonly used when data needs to be associated with unique identifiers, such as storing user information by ID or maintaining configuration settings.
+
+| Implementation | Null keys | Null values | Key uniqueness | Ordering | Thread-safe | Capacity |
+|---|---|---|---|---|---|---|
+| ConcurrentHashMap | No | No | Yes | Unspecified | Yes | Dynamic |
+| ConcurrentSkipListMap | No | No | Yes | Sorted keys | Yes | Dynamic |
+| EnumMap | No | Yes | Yes | Enum declaration | No | Dynamic |
+| HashMap | One | Yes | Yes | Unspecified | No | Dynamic |
+| Hashtable | No | No | Yes | Unspecified | Yes | Dynamic |
+| IdentityHashMap | One | Yes | Yes (identity) | Unspecified | No | Dynamic |
+| LinkedHashMap | One | Yes | Yes | Insertion / Access | No | Dynamic |
+| TreeMap | No* | Yes | Yes | Sorted keys | No | Dynamic |
+| WeakHashMap | One | Yes | Yes | Unspecified | No | Dynamic |
 
 #### ConcurrentHashMap
 ConcurrentHashMap is a **thread-safe implementation of the Java Map interface** that allows **multiple threads to access and modify key-value pairs concurrently** without requiring the entire map to be locked. It provides efficient read and write operations by using fine-grained synchronization and other concurrency mechanisms. It does **not allow null keys or values** and does not guarantee iteration order. It is commonly used in multithreaded applications where multiple threads need to share and update a map safely.
