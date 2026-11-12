@@ -57,3 +57,70 @@ synchronized is a Java keyword used to provide mutual exclusion and memory visib
 - `interrupt()`: Does not forcibly terminate a thread.
 - `wait()`, `notify()` and `notifyAll()` belong to `Object`, not `Thread`.
 - `sleep()`, `join()` and `wait()` can throw `InterruptedException`.
+
+# Java Lock Interface
+
+The **`Lock` interface** (`java.util.concurrent.locks`) provides explicit locking mechanisms for controlling access to shared resources in multithreaded applications. Unlike the `synchronized` keyword, it offers additional functionality such as non-blocking lock acquisition (`tryLock()`), interruptible locking (`lockInterruptibly()`), and optional timed lock acquisition. Locks must generally be released explicitly using `unlock()`, preferably inside a `finally` block to prevent deadlocks.
+
+## Important Methods
+
+| Method | Description |
+|---|---|
+| `lock()` | Acquires the lock. Blocks until it becomes available. |
+| `unlock()` | Releases the lock. |
+| `tryLock()` | Attempts to acquire the lock without blocking. Returns `true` if successful. |
+| `tryLock(long time, TimeUnit unit)` | Attempts to acquire the lock within a specified timeout. |
+| `lockInterruptibly()` | Acquires the lock unless the thread is interrupted while waiting. |
+| `newCondition()` | Creates a `Condition` associated with the lock for thread coordination. |
+
+## Example: ReentrantLock
+
+```java
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Counter {
+
+    private int count = 0;
+    private final Lock lock = new ReentrantLock();
+
+    public void increment() {
+        lock.lock();
+
+        try {
+            count++;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+## Lock vs. synchronized
+
+| Feature | `synchronized` | `Lock` |
+|---|---|---|
+| Lock acquisition | Automatic | Explicit (`lock()`) |
+| Lock release | Automatic | Explicit (`unlock()`) |
+| Non-blocking acquisition | No | Yes (`tryLock()`) |
+| Timed acquisition | No | Yes |
+| Interruptible acquisition | No | Yes |
+| Multiple conditions | Limited to one monitor wait set | Multiple `Condition` objects |
+| Reentrant | Yes | Depends on implementation; `ReentrantLock` is reentrant |
+| Automatic release | Yes | No |
+
+## Important Implementations
+
+| Implementation | Description |
+|---|---|
+| `ReentrantLock` | Exclusive, reentrant lock with optional fairness policy. |
+| `ReentrantReadWriteLock` | Allows multiple concurrent readers or one exclusive writer. |
+| `StampedLock` | Supports write locks, read locks, and optimistic reads. It is not reentrant. |
+
+## Important Exam Points
+
+- Always release explicitly acquired locks in a `finally` block.
+- `ReentrantLock` allows the same thread to acquire the lock multiple times.
+- `tryLock()` does not block while attempting to acquire a lock.
+- A lock should only be unlocked by the thread that owns it.
+- `Condition` provides `await()`, `signal()`, and `signalAll()` for thread coordination.
