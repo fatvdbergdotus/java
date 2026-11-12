@@ -134,4 +134,30 @@ From strongest to weakest:
 | **Concurrency utilities** | Limited | Yes | No | No |
 | **JSON serialization** | No | No | Yes | Yes |
 | **JSON deserialization** | No | No | Yes | Yes |
-| **JSON tree
+| **JSON tree model** | No | No | Yes (`JsonElement`) | Yes (`JsonNode`) |
+| **Streaming JSON processing** | No | No | Yes (`JsonReader`, `JsonWriter`) | Yes (`JsonParser`, `JsonGenerator`) |
+| **Custom serializers** | No | No | Yes | Yes |
+| **Custom deserializers** | No | No | Yes | Yes |
+| **Generic type support** | No | Yes (`TypeToken`) | Yes (`TypeToken`) | Yes (`TypeReference`) |
+| **Configuration API** | No central configuration | No central configuration | `GsonBuilder` | `ObjectMapper`, modules |
+| **Additional data formats** | No | No | Primarily JSON | Yes, through extensions (XML, YAML, CSV, etc.) |
+| **Typical use case** | String and object manipulation | Advanced collections and caching | Simple JSON conversion | Complex JSON mapping and streaming |
+
+## Summary
+
+| Library | Main strength |
+|---|---|
+| **Apache Commons Lang** | General-purpose Java utility methods |
+| **Google Guava** | Advanced collections, caching, and immutable data structures |
+| **Gson** | Simple JSON serialization and deserialization |
+| **Jackson** | Flexible JSON processing, streaming, and object mapping |
+
+
+# JVM Class Loading Lifecycle
+The JVM class loading process consists of five main phases: Loading, Verification, Preparation, Resolution, and Initialization. Verification, Preparation, and Resolution together form the Linking phase.
+Phase	Description
+1. Loading	The JVM locates and reads the .class file, loads its bytecode, and creates the corresponding Class object.
+2. Verification	Checks whether the loaded bytecode is valid and conforms to JVM specifications.
+3. Preparation	Allocates memory for static fields and initializes them with default values (0, false, null, etc.).
+4. Resolution	Replaces symbolic references in the runtime constant pool with direct references.
+5. Initialization	Executes static initializers and static field assignments (static blocks and explicit initializers).
