@@ -156,8 +156,8 @@ From strongest to weakest:
 # JVM Class Loading Lifecycle
 The JVM class loading process consists of five main phases: Loading, Verification, Preparation, Resolution, and Initialization. Verification, Preparation, and Resolution together form the Linking phase.
 Phase	Description
-1. Loading	The JVM locates and reads the .class file, loads its bytecode, and creates the corresponding Class object.
-2. Verification	Checks whether the loaded bytecode is valid and conforms to JVM specifications.
-3. Preparation	Allocates memory for static fields and initializes them with default values (0, false, null, etc.).
-4. Resolution	Replaces symbolic references in the runtime constant pool with direct references.
-5. Initialization	Executes static initializers and static field assignments (static blocks and explicit initializers).
+1. **Loading**	The JVM locates and reads the .class file, loads its bytecode, and creates the corresponding Class object.
+2. **Verification**	Checks whether the loaded bytecode is valid and conforms to JVM specifications.
+3. **Preparation**	Allocates memory for static fields and initializes them with default values (0, false, null, etc.).
+4. **Resolution**	Replaces symbolic references in the runtime constant pool with direct references.
+5. **Initialization**	Executes static initializers and static field assignments (static blocks and explicit initializers).
