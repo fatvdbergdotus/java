@@ -111,3 +111,27 @@ From strongest to weakest:
 - Phantom references always return `null` from `get()`.
 - A reference queue (`ReferenceQueue`) can be used to detect when soft, weak or phantom references are enqueued.
 
+# Detailed Comparison of Java Libraries
+
+| Feature | Apache Commons Lang | Google Guava | Gson | Jackson |
+|---|---|---|---|---|
+| **Primary purpose** | General-purpose utilities | Advanced utilities and collections | JSON processing | JSON and data-format processing |
+| **Developer** | Apache Software Foundation | Google | Google | FasterXML |
+| **String utilities** | Yes (`StringUtils`) | Yes (`Strings`, `Joiner`, `Splitter`) | No | No |
+| **Array utilities** | Yes (`ArrayUtils`) | Yes (`Ints`, `Bytes`, etc.) | No | No |
+| **Collection utilities** | Limited | Extensive | No | No |
+| **Immutable collections** | No | Yes (`ImmutableList`, `ImmutableMap`) | No | No |
+| **Multimap** | No | Yes (`Multimap`) | No | No |
+| **Bidirectional maps** | No | Yes (`BiMap`) | No | No |
+| **Two-dimensional maps** | No | Yes (`Table`) | No | No |
+| **Caching** | No | Yes (`Cache`) | No | No |
+| **Precondition validation** | Yes | Yes (`Preconditions`) | No | No |
+| **Object utilities** | Yes (`ObjectUtils`) | Yes (`Objects`) | No | Limited |
+| **Reflection utilities** | Yes (`ClassUtils`) | Yes (`TypeToken`) | Limited | Yes |
+| **Enum utilities** | Yes (`EnumUtils`) | Yes (`Enums`) | Yes | Yes |
+| **Date/time utilities** | Yes | Limited | Limited | Yes |
+| **Functional utilities** | Limited | Yes | No | No |
+| **Concurrency utilities** | Limited | Yes | No | No |
+| **JSON serialization** | No | No | Yes | Yes |
+| **JSON deserialization** | No | No | Yes | Yes |
+| **JSON tree
