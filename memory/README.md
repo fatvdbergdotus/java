@@ -57,9 +57,6 @@ Java provides several garbage collectors (GCs), each optimized for different app
 
 **Best for:** Applications requiring very low latency.
 
-# Escape analysis
-Escape Analysis is a JVM optimization technique performed by the Just-In-Time (JIT) compiler to determine whether an object can be accessed outside the method or thread in which it was created. If an object does not escape its scope, the JVM may optimize its allocation using scalar replacement, eliminating the object and replacing its fields with local variables. Escape analysis can also enable lock elision, removing unnecessary synchronization when an object cannot be shared between threads. These optimizations reduce heap allocations, garbage collection overhead, and synchronization costs. Importantly, escape analysis does not necessarily allocate objects on the stack; it can eliminate object allocations entirely.
-
 # Heap memory regions
 Heap Memory Regions in Java are the areas of memory where objects and arrays are allocated. In the HotSpot JVM, the heap is divided into several regions to optimize garbage collection. The main regions are **Young Generation**, where newly created objects are allocated, and **Old Generation** (Tenured Generation), where long-lived objects are stored. The Young Generation is further divided into **Eden Space**, where most new objects are allocated, and **two Survivor Spaces** (S0 and S1), where objects that survive garbage collection are moved. Objects that survive multiple garbage collection cycles may eventually be promoted to the Old Generation. Garbage collection in the Young Generation is called Minor GC, while collection involving the Old Generation is commonly associated with Major GC or Full GC, depending on the collector. The exact heap layout and terminology depend on the garbage collector; for example, G1 divides the heap into multiple equal-sized regions rather than using fixed contiguous generations.
 
