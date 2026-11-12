@@ -60,3 +60,109 @@ Additional mechanisms include immutable objects, where fields cannot be changed 
 | `&` | Bitwise AND | Bit is `1` if both bits are `1` |
 | `^` | Bitwise XOR | Bit is `1` if the bits are different |
 | `\|` | Bitwise OR | Bit is `1` if at least one bit is `1` |
+
+## Interface, Abstract Class and Concrete Class
+
+```java
+// Interface
+interface Animal {
+
+    // Abstract methods
+    void makeSound();
+    void eat();
+
+    // Default method
+    default void sleep() {
+        System.out.println("Animal is sleeping");
+    }
+}
+
+// Abstract class implementing the interface
+abstract class Mammal implements Animal {
+
+    protected String name;
+
+    public Mammal(String name) {
+        this.name = name;
+    }
+
+    // Implementing an interface method
+    @Override
+    public void eat() {
+        System.out.println(name + " is eating");
+    }
+
+    // Concrete method
+    public void breathe() {
+        System.out.println(name + " is breathing");
+    }
+
+    // Abstract method
+    public abstract void walk();
+}
+
+// Concrete class extending the abstract class
+class Dog extends Mammal {
+
+    public Dog(String name) {
+        super(name);
+    }
+
+    // Implementing interface abstract method
+    @Override
+    public void makeSound() {
+        System.out.println(name + " says: Woof!");
+    }
+
+    // Implementing abstract class method
+    @Override
+    public void walk() {
+        System.out.println(name + " is walking");
+    }
+
+    // Overriding interface default method
+    @Override
+    public void sleep() {
+        System.out.println(name + " is sleeping");
+    }
+}
+
+// Main class
+public class Main {
+
+    public static void main(String[] args) {
+
+        Dog dog = new Dog("Buddy");
+
+        dog.makeSound();
+        dog.eat();
+        dog.sleep();
+        dog.breathe();
+        dog.walk();
+    }
+}
+```
+
+### Output
+
+```text
+Buddy says: Woof!
+Buddy is eating
+Buddy is sleeping
+Buddy is breathing
+Buddy is walking
+```
+
+### Key concepts
+
+| Concept | Example | Description |
+|---|---|---|
+| Interface | `Animal` | Defines a contract |
+| Abstract method | `void makeSound()` | Must be implemented by a concrete subclass |
+| Default method | `default void sleep()` | Provides a default implementation |
+| Abstract class | `Mammal` | Provides shared state and functionality |
+| Constructor | `Mammal(String name)` | Initializes the object |
+| Inheritance | `extends Mammal` | Inherits fields and methods |
+| Interface implementation | `implements Animal` | Implements an interface |
+| Method overriding | `@Override` | Provides a new implementation of an inherited method |
+| Concrete class | `Dog` | Implements the required methods and can be instantiated |
