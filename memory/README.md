@@ -161,3 +161,16 @@ Phase	Description
 3. **Preparation**	Allocates memory for static fields and initializes them with default values (0, false, null, etc.).
 4. **Resolution**	Replaces symbolic references in the runtime constant pool with direct references.
 5. **Initialization**	Executes static initializers and static field assignments (static blocks and explicit initializers).
+
+# Benefits of Escape Analysis in JIT Compilation
+
+The benefits of **Escape Analysis** in JIT Compilation include:
+
+1. **Scalar Replacement** – Eliminates object allocations by replacing objects with individual local variables.
+2. **Lock Elision** – Removes unnecessary synchronization when an object cannot be accessed by multiple threads.
+3. **Reduced Heap Allocations** – Avoids allocating objects that do not need to exist as heap objects.
+4. **Reduced Garbage Collection Overhead** – Fewer allocations can mean less work for the garbage collector.
+5. **Improved Performance** – Reduces memory allocation and synchronization overhead.
+
+**Important:** Escape analysis does not necessarily allocate objects on the stack; it can eliminate allocations entirely.
+
