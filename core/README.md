@@ -1,5 +1,26 @@
 # Core Java
 
+## SOLID Principles
+
+**SOLID Principles** are five object-oriented design principles that help create maintainable, flexible, reusable, and extensible software. They encourage loose coupling, high cohesion, and separation of concerns.
+
+| Principle | Name | Description |
+|---|---|---|
+| **S** | Single Responsibility Principle (SRP) | A class should have only one reason to change, meaning it should have one well-defined responsibility. |
+| **O** | Open-Closed Principle (OCP) | Software entities should be open for extension but closed for modification. New functionality should be added without modifying existing, working code. |
+| **L** | Liskov Substitution Principle (LSP) | Subtypes should be replaceable by their base types without changing the correctness of the program. |
+| **I** | Interface Segregation Principle (ISP) | Clients should not be forced to depend on interfaces they do not use. Prefer smaller, specific interfaces over large, general-purpose interfaces. |
+| **D** | Dependency Inversion Principle (DIP) | High-level modules should not depend on low-level modules. Both should depend on abstractions, such as interfaces or abstract classes. |
+
+### Summary
+
+- **SRP:** One responsibility per class.
+- **OCP:** Extend without modifying.
+- **LSP:** Subtypes must be substitutable for base types.
+- **ISP:** Prefer small, focused interfaces.
+- **DIP:** Depend on abstractions, not implementations.
+
+
 ## Method hiding
 Method hiding in Java occurs when a subclass declares a static method with the same signature as a static method in its superclass.
 
