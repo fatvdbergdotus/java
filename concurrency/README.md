@@ -425,6 +425,224 @@ public class SynchronizationAids {
 }
 ```
 
+```java
+
+import java.util.concurrent.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        // =====================================
+        // 1. FIXED THREAD POOL
+        // =====================================
+
+        System.out.println("=== Fixed Thread Pool ===");
+
+        ExecutorService fixedPool =
+                Executors.newFixedThreadPool(2);
+
+        for (int i = 1; i <= 4; i++) {
+            final int task = i;
+
+            fixedPool.submit(() ->
+                System.out.println("Task " + task + " executed by "
+                        + Thread.currentThread().getName())
+            );
+        }
+
+        fixedPool.shutdown();
+        fixedPool.awaitTermination(5, TimeUnit.SECONDS);
+
+        /*
+         * Possible output:
+         *
+         * === Fixed Thread Pool ===
+         * Task 1 executed by pool-1-thread-1
+         * Task 2 executed by pool-1-thread-2
+         * Task 3 executed by pool-1-thread-1
+         * Task 4 executed by pool-1-thread-2
+         */
+
+
+        // =====================================
+        // 2. CACHED THREAD POOL
+        // =====================================
+
+        System.out.println("\n=== Cached Thread Pool ===");
+
+        ExecutorService cachedPool =
+                Executors.newCachedThreadPool();
+
+        for (int i = 1; i <= 3; i++) {
+            final int task = i;
+
+            cachedPool.execute(() ->
+                System.out.println("Cached task " + task + " executed by "
+                        + Thread.currentThread().getName())
+            );
+        }
+
+        cachedPool.shutdown();
+        cachedPool.awaitTermination(5, TimeUnit.SECONDS);
+
+        /*
+         * Possible output:
+         *
+         * === Cached Thread Pool ===
+         * Cached task 1 executed by pool-2-thread-1
+         * Cached task 2 executed by pool-2-thread-2
+         * Cached task 3 executed by pool-2-thread-3
+         */
+
+
+        // =====================================
+        // 3. SINGLE THREAD EXECUTOR
+        // =====================================
+
+        System.out.println("\n=== Single Thread Executor ===");
+
+        ExecutorService singlePool =
+                Executors.newSingleThreadExecutor();
+
+        for (int i = 1; i <= 3; i++) {
+            final int task = i;
+
+            singlePool.submit(() ->
+                System.out.println("Single task " + task + " executed by "
+                        + Thread.currentThread().getName())
+            );
+        }
+
+        singlePool.shutdown();
+        singlePool.awaitTermination(5, TimeUnit.SECONDS);
+
+        /*
+         * Possible output:
+         *
+         * === Single Thread Executor ===
+         * Single task 1 executed by pool-3-thread-1
+         * Single task 2 executed by pool-3-thread-1
+         * Single task 3 executed by pool-3-thread-1
+         */
+
+
+        // =====================================
+        // 4. SCHEDULED THREAD POOL
+        // =====================================
+
+        System.out.println("\n=== Scheduled Thread Pool ===");
+
+        ScheduledExecutorService scheduledPool =
+                Executors.newScheduledThreadPool(2);
+
+        scheduledPool.schedule(
+            () -> System.out.println("Delayed task executed"),
+            1, TimeUnit.SECONDS
+        );
+
+        scheduledPool.shutdown();
+        scheduledPool.awaitTermination(5, TimeUnit.SECONDS);
+
+        /*
+         * Possible output:
+         *
+         * === Scheduled Thread Pool ===
+         * Delayed task executed
+         */
+
+
+        // =====================================
+        // 5. WORK-STEALING POOL
+        // =====================================
+
+        System.out.println("\n=== Work-Stealing Pool ===");
+
+        ExecutorService workStealingPool =
+                Executors.newWorkStealingPool(2);
+
+        for (int i = 1; i <= 4; i++) {
+            final int task = i;
+
+            workStealingPool.submit(() ->
+                System.out.println("Work-stealing task " + task
+                        + " executed by "
+                        + Thread.currentThread().getName())
+            );
+        }
+
+        workStealingPool.shutdown();
+        workStealingPool.awaitTermination(5, TimeUnit.SECONDS);
+
+        /*
+         * Possible output:
+         *
+         * === Work-Stealing Pool ===
+         * Work-stealing task 1 executed by ForkJoinPool-1-worker-1
+         * Work-stealing task 2 executed by ForkJoinPool-1-worker-2
+         * Work-stealing task 3 executed by ForkJoinPool-1-worker-1
+         * Work-stealing task 4 executed by ForkJoinPool-1-worker-2
+         */
+
+
+        // =====================================
+        // 6. VIRTUAL THREAD PER TASK (JAVA 21+)
+        // =====================================
+
+        System.out.println("\n=== Virtual Thread Executor ===");
+
+        try (ExecutorService virtualPool =
+                     Executors.newVirtualThreadPerTaskExecutor()) {
+
+            for (int i = 1; i <= 3; i++) {
+                final int task = i;
+
+                virtualPool.submit(() ->
+                    System.out.println("Virtual task " + task
+                            + " executed by "
+                            + Thread.currentThread())
+                );
+            }
+        }
+
+        /*
+         * Possible output:
+         *
+         * === Virtual Thread Executor ===
+         * Virtual task 1 executed by VirtualThread[#21]
+         * Virtual task 2 executed by VirtualThread[#22]
+         * Virtual task 3 executed by VirtualThread[#23]
+         */
+
+
+        // =====================================
+        // 7. CALLABLE AND FUTURE
+        // =====================================
+
+        System.out.println("\n=== Callable and Future ===");
+
+        ExecutorService resultPool =
+                Executors.newFixedThreadPool(2);
+
+        Future<Integer> result = resultPool.submit(() -> {
+            return 10 + 20;
+        });
+
+        System.out.println("Result: " + result.get());
+
+        resultPool.shutdown();
+
+        /*
+         * Possible output:
+         *
+         * === Callable and Future ===
+         * Result: 30
+         */
+    }
+}
+```
+
+
 # Volatile and Synchronized
 volatile is a Java keyword used to ensure visibility of changes to a variable across multiple threads. When a thread modifies a volatile variable, other threads reading that variable will see the most recently written value. It also establishes memory-ordering guarantees (happens-before relationships). However, volatile does not guarantee atomicity for compound operations such as count++, because incrementing involves multiple steps. It is typically used for status flags and variables shared between threads.
 
