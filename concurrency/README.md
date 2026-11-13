@@ -965,4 +965,3 @@ true
 | `averagingInt()` | Calculates average |
 | `groupingBy()` | Groups elements by a property |
 | `partitioningBy()` | Divides elements into two groups |
-| `mapping
