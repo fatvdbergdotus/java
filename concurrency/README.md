@@ -739,3 +739,230 @@ public class Counter {
 - `tryLock()` does not block while attempting to acquire a lock.
 - A lock should only be unlocked by the thread that owns it.
 - `Condition` provides `await()`, `signal()`, and `signalAll()` for thread coordination.
+
+# Java Stream API
+
+The **Java Stream API** (introduced in Java 8, `java.util.stream`) provides a functional approach to processing collections of data. It allows filtering, mapping, sorting, reducing and aggregating elements using declarative operations.
+
+Streams do not store data themselves; they process data from a source such as a collection, array or file.
+
+## 1. Main concepts
+
+A stream pipeline consists of three stages:
+
+1. **Source:** Collection, array, file, etc.
+2. **Intermediate operations:** `filter()`, `map()`, `sorted()`, `distinct()`.
+3. **Terminal operation:** `collect()`, `forEach()`, `reduce()`, `count()`.
+
+Example:
+
+```java
+List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6);
+
+List<Integer> result = numbers.stream()
+    .filter(n -> n % 2 == 0)
+    .map(n -> n * 2)
+    .toList();
+
+System.out.println(result);
+```
+
+Output:
+
+```text
+[4, 8, 12]
+```
+
+## 2. Creating streams
+
+| Method | Description |
+|---|---|
+| `collection.stream()` | Creates a sequential stream |
+| `collection.parallelStream()` | Creates a potentially parallel stream |
+| `Stream.of()` | Creates a stream from values |
+| `Arrays.stream()` | Creates a stream from an array |
+| `Stream.empty()` | Creates an empty stream |
+| `Stream.generate()` | Generates an infinite stream |
+| `Stream.iterate()` | Generates a stream using iteration |
+| `Files.lines()` | Creates a stream of file lines |
+
+Examples:
+
+```java
+Stream<String> s1 = Stream.of("A", "B", "C");
+
+Stream<Integer> s2 = Arrays.stream(
+    new Integer[]{1, 2, 3}
+);
+
+Stream<Double> s3 = Stream.generate(Math::random);
+
+Stream<Integer> s4 = Stream.iterate(
+    1, n -> n + 1
+).limit(5);
+```
+
+## 3. Intermediate operations
+
+Intermediate operations transform a stream and return another stream.
+
+They are **lazy**, meaning they are not executed until a terminal operation is invoked.
+
+| Operation | Description | Example |
+|---|---|---|
+| `filter()` | Selects elements matching a condition | `filter(n -> n > 5)` |
+| `map()` | Transforms each element | `map(n -> n * 2)` |
+| `flatMap()` | Flattens nested streams | `flatMap(List::stream)` |
+| `distinct()` | Removes duplicates | `distinct()` |
+| `sorted()` | Sorts elements | `sorted()` |
+| `limit()` | Keeps first N elements | `limit(5)` |
+| `skip()` | Skips first N elements | `skip(2)` |
+| `peek()` | Performs an action while elements pass through | `peek(System.out::println)` |
+| `takeWhile()` | Takes elements while condition is true | `takeWhile(n -> n < 10)` |
+| `dropWhile()` | Drops elements while condition is true | `dropWhile(n -> n < 10)` |
+
+### filter()
+
+Selects elements based on a predicate.
+
+```java
+List<Integer> result = numbers.stream()
+    .filter(n -> n > 3)
+    .toList();
+```
+
+Output: `[4, 5, 6]`
+
+### map()
+
+Transforms each element.
+
+```java
+List<Integer> result = numbers.stream()
+    .map(n -> n * n)
+    .toList();
+```
+
+Output: `[1, 4, 9, 16, 25, 36]`
+
+### flatMap()
+
+Transforms each element into a stream and flattens the results into one stream.
+
+```java
+List<List<Integer>> nested = List.of(
+    List.of(1, 2),
+    List.of(3, 4)
+);
+
+List<Integer> result = nested.stream()
+    .flatMap(List::stream)
+    .toList();
+```
+
+Output: `[1, 2, 3, 4]`
+
+### distinct(), sorted(), limit() and skip()
+
+```java
+List<Integer> result = Stream.of(5, 2, 2, 4, 1, 3)
+    .distinct()
+    .sorted()
+    .skip(1)
+    .limit(3)
+    .toList();
+```
+
+Output: `[2, 3, 4]`
+
+## 4. Terminal operations
+
+Terminal operations trigger stream execution and produce a result or side effect.
+
+| Operation | Description | Return type |
+|---|---|---|
+| `forEach()` | Performs an action on each element | `void` |
+| `toList()` | Collects elements into an unmodifiable list | `List<T>` |
+| `collect()` | Collects elements using a collector | Depends on collector |
+| `count()` | Counts elements | `long` |
+| `reduce()` | Combines elements into one result | `Optional<T>` or other |
+| `min()` | Finds minimum element | `Optional<T>` |
+| `max()` | Finds maximum element | `Optional<T>` |
+| `findFirst()` | Returns first element | `Optional<T>` |
+| `findAny()` | Returns any element | `Optional<T>` |
+| `anyMatch()` | Checks whether any element matches | `boolean` |
+| `allMatch()` | Checks whether all elements match | `boolean` |
+| `noneMatch()` | Checks whether no elements match | `boolean` |
+
+### forEach()
+
+```java
+numbers.stream()
+    .forEach(System.out::println);
+```
+
+### count()
+
+```java
+long count = numbers.stream()
+    .filter(n -> n > 3)
+    .count();
+```
+
+Output: `3`
+
+### reduce()
+
+Combines all elements into a single result.
+
+```java
+int sum = numbers.stream()
+    .reduce(0, Integer::sum);
+```
+
+Output: `21`
+
+### min() and max()
+
+```java
+int min = numbers.stream()
+    .min(Integer::compareTo)
+    .orElseThrow();
+
+int max = numbers.stream()
+    .max(Integer::compareTo)
+    .orElseThrow();
+```
+
+### anyMatch(), allMatch() and noneMatch()
+
+```java
+boolean any = numbers.stream().anyMatch(n -> n > 5);
+boolean all = numbers.stream().allMatch(n -> n > 0);
+boolean none = numbers.stream().noneMatch(n -> n < 0);
+```
+
+Output:
+
+```text
+true
+true
+true
+```
+
+## 5. Collectors
+
+`Collectors` is a utility class providing implementations of the `Collector` interface. It is commonly used with `collect()`.
+
+| Collector | Description |
+|---|---|
+| `toList()` | Collects into a list |
+| `toSet()` | Collects into a set |
+| `toMap()` | Collects into a map |
+| `joining()` | Joins strings |
+| `counting()` | Counts elements |
+| `summingInt()` | Calculates integer sum |
+| `averagingInt()` | Calculates average |
+| `groupingBy()` | Groups elements by a property |
+| `partitioningBy()` | Divides elements into two groups |
+| `mapping
