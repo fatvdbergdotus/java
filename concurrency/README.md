@@ -28,7 +28,7 @@
 | `Semaphore` vs. `Lock` | Semaphore controls access using multiple permits; a lock provides exclusive ownership. |
 | `AtomicInteger` vs. `volatile int` | AtomicInteger supports atomic compound operations; volatile only guarantees visibility and ordering, not atomic increments. |
 
-'''java
+```java
 
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
@@ -423,7 +423,7 @@ public class SynchronizationAids {
         reentrantReadWriteLockExample();
     }
 }
-'''
+```
 
 # Volatile and Synchronized
 volatile is a Java keyword used to ensure visibility of changes to a variable across multiple threads. When a thread modifies a volatile variable, other threads reading that variable will see the most recently written value. It also establishes memory-ordering guarantees (happens-before relationships). However, volatile does not guarantee atomicity for compound operations such as count++, because incrementing involves multiple steps. It is typically used for status flags and variables shared between threads.
