@@ -29,6 +29,7 @@
 | `AtomicInteger` vs. `volatile int` | AtomicInteger supports atomic compound operations; volatile only guarantees visibility and ordering, not atomic increments. |
 
 '''java
+
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -38,18 +39,20 @@ public class SynchronizationAids {
     // 1. CountDownLatch
     // Wait until all worker threads have completed.
     static void countDownLatchExample() throws InterruptedException {
+
         System.out.println("\n--- CountDownLatch ---");
 
         CountDownLatch latch = new CountDownLatch(3);
+        Thread[] threads = new Thread[3];
 
         for (int i = 1; i <= 3; i++) {
             final int id = i;
 
-            new Thread(() -> {
+            threads[i - 1] = new Thread(() -> {
                 System.out.println("Worker " + id + " started");
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     return;
@@ -57,27 +60,52 @@ public class SynchronizationAids {
 
                 System.out.println("Worker " + id + " finished");
                 latch.countDown();
-            }).start();
+            });
+
+            threads[i - 1].start();
         }
 
         latch.await();
+
+        for (Thread thread : threads) {
+            thread.join();
+        }
+
         System.out.println("All workers completed!");
+
+        /*
+         EXPECTED OUTPUT (one possible ordering):
+
+         --- CountDownLatch ---
+         Worker 1 started
+         Worker 2 started
+         Worker 3 started
+         Worker 1 finished
+         Worker 2 finished
+         Worker 3 finished
+         All workers completed!
+        */
     }
 
 
     // 2. CyclicBarrier
     // All threads wait until they reach the same barrier.
-    static void cyclicBarrierExample() {
+    static void cyclicBarrierExample() throws InterruptedException {
+
         System.out.println("\n--- CyclicBarrier ---");
 
         CyclicBarrier barrier = new CyclicBarrier(3,
-                () -> System.out.println("All workers reached the barrier!")
+                () -> System.out.println(
+                        "All workers reached the barrier!"
+                )
         );
+
+        Thread[] threads = new Thread[3];
 
         for (int i = 1; i <= 3; i++) {
             final int id = i;
 
-            new Thread(() -> {
+            threads[i - 1] = new Thread(() -> {
                 try {
                     System.out.println("Worker " + id + " preparing");
 
@@ -90,14 +118,34 @@ public class SynchronizationAids {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }).start();
+            });
+
+            threads[i - 1].start();
         }
+
+        for (Thread thread : threads) {
+            thread.join();
+        }
+
+        /*
+         EXPECTED OUTPUT (one possible ordering):
+
+         --- CyclicBarrier ---
+         Worker 1 preparing
+         Worker 2 preparing
+         Worker 3 preparing
+         All workers reached the barrier!
+         Worker 1 continuing
+         Worker 2 continuing
+         Worker 3 continuing
+        */
     }
 
 
     // 3. Exchanger<V>
     // Two threads exchange objects.
-    static void exchangerExample() {
+    static void exchangerExample() throws InterruptedException {
+
         System.out.println("\n--- Exchanger ---");
 
         Exchanger<String> exchanger = new Exchanger<>();
@@ -122,20 +170,34 @@ public class SynchronizationAids {
 
         t1.start();
         t2.start();
+
+        t1.join();
+        t2.join();
+
+        /*
+         EXPECTED OUTPUT:
+
+         --- Exchanger ---
+         Thread 1 received: Message B
+         Thread 2 received: Message A
+        */
     }
 
 
     // 4. Phaser
     // Synchronize threads across multiple phases.
-    static void phaserExample() {
+    static void phaserExample() throws InterruptedException {
+
         System.out.println("\n--- Phaser ---");
 
         Phaser phaser = new Phaser(3);
+        Thread[] threads = new Thread[3];
 
         for (int i = 1; i <= 3; i++) {
             final int id = i;
 
-            new Thread(() -> {
+            threads[i - 1] = new Thread(() -> {
+
                 System.out.println("Worker " + id + " - Phase 1");
 
                 phaser.arriveAndAwaitAdvance();
@@ -147,34 +209,62 @@ public class SynchronizationAids {
                 System.out.println("Worker " + id + " finished");
 
                 phaser.arriveAndDeregister();
-            }).start();
+            });
+
+            threads[i - 1].start();
         }
+
+        for (Thread thread : threads) {
+            thread.join();
+        }
+
+        /*
+         EXPECTED OUTPUT (one possible ordering):
+
+         --- Phaser ---
+         Worker 1 - Phase 1
+         Worker 2 - Phase 1
+         Worker 3 - Phase 1
+         Worker 1 - Phase 2
+         Worker 2 - Phase 2
+         Worker 3 - Phase 2
+         Worker 1 finished
+         Worker 2 finished
+         Worker 3 finished
+        */
     }
 
 
     // 5. Semaphore
     // Limit the number of threads accessing a resource.
-    static void semaphoreExample() {
+    static void semaphoreExample() throws InterruptedException {
+
         System.out.println("\n--- Semaphore ---");
 
         // Only two threads can access the resource simultaneously.
         Semaphore semaphore = new Semaphore(2);
 
+        Thread[] threads = new Thread[5];
+
         for (int i = 1; i <= 5; i++) {
             final int id = i;
 
-            new Thread(() -> {
+            threads[i - 1] = new Thread(() -> {
                 boolean acquired = false;
 
                 try {
                     semaphore.acquire();
                     acquired = true;
 
-                    System.out.println("Worker " + id + " accessing resource");
+                    System.out.println(
+                            "Worker " + id + " accessing resource"
+                    );
 
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
 
-                    System.out.println("Worker " + id + " releasing resource");
+                    System.out.println(
+                            "Worker " + id + " releasing resource"
+                    );
 
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -183,34 +273,80 @@ public class SynchronizationAids {
                         semaphore.release();
                     }
                 }
-            }).start();
+            });
+
+            threads[i - 1].start();
         }
+
+        for (Thread thread : threads) {
+            thread.join();
+        }
+
+        /*
+         EXPECTED OUTPUT (one possible ordering):
+
+         --- Semaphore ---
+         Worker 1 accessing resource
+         Worker 2 accessing resource
+         Worker 1 releasing resource
+         Worker 3 accessing resource
+         Worker 2 releasing resource
+         Worker 4 accessing resource
+         Worker 3 releasing resource
+         Worker 5 accessing resource
+         Worker 4 releasing resource
+         Worker 5 releasing resource
+
+         Maximum concurrent access: 2
+        */
     }
 
 
     // 6. ThreadLocalRandom
     // Each thread gets its own random number generator.
-    static void threadLocalRandomExample() {
+    static void threadLocalRandomExample() throws InterruptedException {
+
         System.out.println("\n--- ThreadLocalRandom ---");
+
+        Thread[] threads = new Thread[3];
 
         for (int i = 1; i <= 3; i++) {
             final int id = i;
 
-            new Thread(() -> {
+            threads[i - 1] = new Thread(() -> {
                 int randomNumber =
                         ThreadLocalRandom.current().nextInt(1, 101);
 
                 System.out.println(
                         "Thread " + id + " generated: " + randomNumber
                 );
-            }).start();
+            });
+
+            threads[i - 1].start();
         }
+
+        for (Thread thread : threads) {
+            thread.join();
+        }
+
+        /*
+         EXPECTED OUTPUT (example values):
+
+         --- ThreadLocalRandom ---
+         Thread 1 generated: 42
+         Thread 2 generated: 87
+         Thread 3 generated: 13
+
+         Actual random values will vary.
+        */
     }
 
 
     // 7. ReentrantReadWriteLock
     // Multiple readers OR one exclusive writer.
-    static void reentrantReadWriteLockExample() {
+    static void reentrantReadWriteLockExample()
+            throws InterruptedException {
+
         System.out.println("\n--- ReentrantReadWriteLock ---");
 
         ReentrantReadWriteLock lock =
@@ -223,7 +359,9 @@ public class SynchronizationAids {
             lock.readLock().lock();
 
             try {
-                System.out.println("Reading: " + sharedData[0]);
+                System.out.println(
+                        "Reading: " + sharedData[0]
+                );
             } finally {
                 lock.readLock().unlock();
             }
@@ -235,7 +373,10 @@ public class SynchronizationAids {
 
             try {
                 sharedData[0]++;
-                System.out.println("Writing: " + sharedData[0]);
+
+                System.out.println(
+                        "Writing: " + sharedData[0]
+                );
             } finally {
                 lock.writeLock().unlock();
             }
@@ -243,11 +384,29 @@ public class SynchronizationAids {
 
         reader.start();
         writer.start();
+
+        reader.join();
+        writer.join();
+
+        /*
+         EXPECTED OUTPUT (one possible ordering):
+
+         --- ReentrantReadWriteLock ---
+         Reading: 0
+         Writing: 1
+
+         OR:
+
+         --- ReentrantReadWriteLock ---
+         Writing: 1
+         Reading: 1
+        */
     }
 
 
-    // Main method
-    public static void main(String[] args) throws InterruptedException {
+    // Main method: execute all examples sequentially.
+    public static void main(String[] args)
+            throws InterruptedException {
 
         countDownLatchExample();
 
