@@ -28,6 +28,244 @@
 | `Semaphore` vs. `Lock` | Semaphore controls access using multiple permits; a lock provides exclusive ownership. |
 | `AtomicInteger` vs. `volatile int` | AtomicInteger supports atomic compound operations; volatile only guarantees visibility and ordering, not atomic increments. |
 
+'''java
+import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+public class SynchronizationAids {
+
+    // 1. CountDownLatch
+    // Wait until all worker threads have completed.
+    static void countDownLatchExample() throws InterruptedException {
+        System.out.println("\n--- CountDownLatch ---");
+
+        CountDownLatch latch = new CountDownLatch(3);
+
+        for (int i = 1; i <= 3; i++) {
+            final int id = i;
+
+            new Thread(() -> {
+                System.out.println("Worker " + id + " started");
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+
+                System.out.println("Worker " + id + " finished");
+                latch.countDown();
+            }).start();
+        }
+
+        latch.await();
+        System.out.println("All workers completed!");
+    }
+
+
+    // 2. CyclicBarrier
+    // All threads wait until they reach the same barrier.
+    static void cyclicBarrierExample() {
+        System.out.println("\n--- CyclicBarrier ---");
+
+        CyclicBarrier barrier = new CyclicBarrier(3,
+                () -> System.out.println("All workers reached the barrier!")
+        );
+
+        for (int i = 1; i <= 3; i++) {
+            final int id = i;
+
+            new Thread(() -> {
+                try {
+                    System.out.println("Worker " + id + " preparing");
+
+                    Thread.sleep(500);
+
+                    barrier.await();
+
+                    System.out.println("Worker " + id + " continuing");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }
+
+
+    // 3. Exchanger<V>
+    // Two threads exchange objects.
+    static void exchangerExample() {
+        System.out.println("\n--- Exchanger ---");
+
+        Exchanger<String> exchanger = new Exchanger<>();
+
+        Thread t1 = new Thread(() -> {
+            try {
+                String received = exchanger.exchange("Message A");
+                System.out.println("Thread 1 received: " + received);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            try {
+                String received = exchanger.exchange("Message B");
+                System.out.println("Thread 2 received: " + received);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+
+
+    // 4. Phaser
+    // Synchronize threads across multiple phases.
+    static void phaserExample() {
+        System.out.println("\n--- Phaser ---");
+
+        Phaser phaser = new Phaser(3);
+
+        for (int i = 1; i <= 3; i++) {
+            final int id = i;
+
+            new Thread(() -> {
+                System.out.println("Worker " + id + " - Phase 1");
+
+                phaser.arriveAndAwaitAdvance();
+
+                System.out.println("Worker " + id + " - Phase 2");
+
+                phaser.arriveAndAwaitAdvance();
+
+                System.out.println("Worker " + id + " finished");
+
+                phaser.arriveAndDeregister();
+            }).start();
+        }
+    }
+
+
+    // 5. Semaphore
+    // Limit the number of threads accessing a resource.
+    static void semaphoreExample() {
+        System.out.println("\n--- Semaphore ---");
+
+        // Only two threads can access the resource simultaneously.
+        Semaphore semaphore = new Semaphore(2);
+
+        for (int i = 1; i <= 5; i++) {
+            final int id = i;
+
+            new Thread(() -> {
+                boolean acquired = false;
+
+                try {
+                    semaphore.acquire();
+                    acquired = true;
+
+                    System.out.println("Worker " + id + " accessing resource");
+
+                    Thread.sleep(1000);
+
+                    System.out.println("Worker " + id + " releasing resource");
+
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                } finally {
+                    if (acquired) {
+                        semaphore.release();
+                    }
+                }
+            }).start();
+        }
+    }
+
+
+    // 6. ThreadLocalRandom
+    // Each thread gets its own random number generator.
+    static void threadLocalRandomExample() {
+        System.out.println("\n--- ThreadLocalRandom ---");
+
+        for (int i = 1; i <= 3; i++) {
+            final int id = i;
+
+            new Thread(() -> {
+                int randomNumber =
+                        ThreadLocalRandom.current().nextInt(1, 101);
+
+                System.out.println(
+                        "Thread " + id + " generated: " + randomNumber
+                );
+            }).start();
+        }
+    }
+
+
+    // 7. ReentrantReadWriteLock
+    // Multiple readers OR one exclusive writer.
+    static void reentrantReadWriteLockExample() {
+        System.out.println("\n--- ReentrantReadWriteLock ---");
+
+        ReentrantReadWriteLock lock =
+                new ReentrantReadWriteLock();
+
+        int[] sharedData = {0};
+
+        // Reader thread
+        Thread reader = new Thread(() -> {
+            lock.readLock().lock();
+
+            try {
+                System.out.println("Reading: " + sharedData[0]);
+            } finally {
+                lock.readLock().unlock();
+            }
+        });
+
+        // Writer thread
+        Thread writer = new Thread(() -> {
+            lock.writeLock().lock();
+
+            try {
+                sharedData[0]++;
+                System.out.println("Writing: " + sharedData[0]);
+            } finally {
+                lock.writeLock().unlock();
+            }
+        });
+
+        reader.start();
+        writer.start();
+    }
+
+
+    // Main method
+    public static void main(String[] args) throws InterruptedException {
+
+        countDownLatchExample();
+
+        cyclicBarrierExample();
+
+        exchangerExample();
+
+        phaserExample();
+
+        semaphoreExample();
+
+        threadLocalRandomExample();
+
+        reentrantReadWriteLockExample();
+    }
+}
+'''
+
 # Volatile and Synchronized
 volatile is a Java keyword used to ensure visibility of changes to a variable across multiple threads. When a thread modifies a volatile variable, other threads reading that variable will see the most recently written value. It also establishes memory-ordering guarantees (happens-before relationships). However, volatile does not guarantee atomicity for compound operations such as count++, because incrementing involves multiple steps. It is typically used for status flags and variables shared between threads.
 
